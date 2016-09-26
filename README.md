@@ -1,6 +1,13 @@
-frontend-nanodegree-arcade-game
-===============================
+#Frontend NanoDegree Arcade Game
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+##Running The Program
+This program consists of one HTML file and three javaScript files. The HTML file calls each javaScript file in order.
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+- The resources.js file loads and caches images.
+- The app.js file is where the game player and enemy controls take place.
+- The engine.js file powers the game functionality and mechanics.
+
+The app.js file is where the game functionality takes place. Player and Enemy classes are created. New enemy instances are called with specific characteristics. Collision function detects if the player and enemy collide. The user's controls are binded to the onscreen player variable. Lastly, the player's score and high score are set and appended to the Dom.
+
+##Playing The Game
+The player starts at the bottom of the screen and the goal is to get the player to the top of the screen without getting hit by any bugs. See how many times you can get the player to the water in a row without getting hit to set a new high score. Use the arrow keys to control the player (up,down,left,right).

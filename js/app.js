@@ -9,6 +9,7 @@ var collisionDetection = function (playerX, playerY, enemyX, enemyY) {
         }
         //resets the players score after they get hit by an enemy
         player.score = 0;
+        //removes previous score from the dom and updates new one with scoreKeeper function
         para.remove();
         scoreKeeper();
     }
@@ -67,8 +68,10 @@ Player.prototype.handleInput = function(keys) {
         //checks to see if the player touches the water, resets their location and adds 1 to their score
         if (this.y < 30) {
             this.score = this.score + 1;
+            //removes previous score from the dom and updates new one with scoreKeeper function
             para.remove();
             scoreKeeper();
+            //resets players location
             this.x = 205;
             this.y = 380;
         }
@@ -129,6 +132,7 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
+//variables and functions to append the score to the dom
 var displayScore;
 var divTag;
 var para;
@@ -140,5 +144,4 @@ var scoreKeeper = function () {
     nodeScore = document.createTextNode(displayScore);
     para.appendChild(nodeScore);
 };
-
 scoreKeeper();
