@@ -1,6 +1,29 @@
-//function that checks if two sprites occupy the same space
-var collisionDetection = function (playerX, playerY, enemyX, enemyY) {
-    if ((playerY + 30) > enemyY && (playerY + 30) < (enemyY + 50) && (playerX + 30) > enemyX && (playerX + 30) < (enemyX + 50)) {
+// Carey Casile 9/26/16 - This app.js file controls the player and enemy sprites as well as game score keeping
+
+// Enemies our player must avoid
+var Enemy = function(xAxis, yAxis, speed) {
+    "use strict";
+    this.sprite = 'images/enemy-bug.png';
+    this.x = xAxis;
+    this.y = yAxis;
+    this.originalX = xAxis;
+    this.speed = speed;
+};
+
+// player class is created, the player's initial x and y coordinates are set. score is set at 0
+var Player = function(xAxis, yAxis) {
+    "use strict";
+    this.sprite = 'images/char-boy.png';
+    this.x = xAxis;
+    this.y = yAxis;
+    this.score = 0;
+    this.highScore = 0;
+};
+
+//checks for player/enemy collision
+Enemy.prototype.collision = function(player){
+    "use strict";
+    if ((player.y + 30) > this.y && (player.y + 30) < (this.y + 50) && (player.x + 30) > this.x && (player.x + 30) < (this.x + 50)) {
         player.x = 205;
         player.y = 380;
         //checks players score for a high score and rights over the high score variable
@@ -15,47 +38,32 @@ var collisionDetection = function (playerX, playerY, enemyX, enemyY) {
     }
 };
 
-// Enemies our player must avoid
-var Enemy = function(xAxis, yAxis, speed) {
-    this.sprite = 'images/enemy-bug.png';
-    this.x = xAxis;
-    this.y = yAxis;
-    this.originalX = xAxis;
-    this.speed = speed;
-};
-
-// player class is created, the player's initial x and y coordinates are set. score is set at 0
-var Player = function() {
-    this.sprite = 'images/char-boy.png';
-    this.x = 205;
-    this.y = 380;
-    this.score = 0;
-    this.highScore = 0;
-};
-
-
 // Updates the enemies position on the screen
-// Parameter: dt, a time delta between ticks to smooth out gameplay between computers
+// Parameter: dt, a time delta between ticks to smooth out gameplay between computers. then calls the Enemy.collision function
 Enemy.prototype.update = function(dt) {
+    "use strict";
     this.x = this.x + (this.speed*dt);
     if (this.x > 605) {
         this.x = this.originalX;
     }
-    collisionDetection(player.x, player.y, this.x, this.y);
+    this.collision(player);
 };
 
 // Draws the enemy on the screen
 Enemy.prototype.render = function() {
+    "use strict";
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 //draws the player on the screen
 Player.prototype.render = function() {
+    "use strict";
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 //Switch statement is used to move player around the screen
 Player.prototype.handleInput = function(keys) {
+    "use strict";
     switch(keys){
         case "left":
         if (this.x > 10) {
@@ -90,6 +98,11 @@ Player.prototype.handleInput = function(keys) {
         break;
     }
 };
+/*
+Player.prototype.update = function(dt) {
+    "use strict";
+    this.collision(player);
+};*/
 
 // Enemy instances are created
 var enemy1 = new Enemy(-9000, 230, 800);
@@ -117,11 +130,12 @@ allEnemies.push(enemy9);
 allEnemies.push(enemy10);
 
 // player instance is created using the Player Class creater
-var player = new Player();
+var player = new Player(205, 380);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
+    "use strict";
     var allowedKeys = {
         37: 'left',
         38: 'up',
@@ -133,10 +147,12 @@ document.addEventListener('keyup', function(e) {
 });
 
 //variables and functions to append the score to the dom
-var displayScore;
-var divTag;
 var para;
 var scoreKeeper = function () {
+    "use strict";
+    var displayScore;
+    var divTag;
+    var nodeScore;
     displayScore = "Player Score: " + player.score + " High Score: " + player.highScore;
     divTag = document.getElementById("div");
     para = document.createElement("p");
