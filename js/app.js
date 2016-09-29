@@ -1,24 +1,42 @@
 // Carey Casile 9/26/16 - This app.js file controls the player and enemy sprites as well as game score keeping
 
-// Enemies our player must avoid
-var Enemy = function(xAxis, yAxis, speed) {
-    "use strict";
-    this.sprite = 'images/enemy-bug.png';
+// creates main class that enemies and player inherit from 
+var Sprite = function(xAxis, yAxis) {
+    'use strict';
     this.x = xAxis;
     this.y = yAxis;
     this.originalX = xAxis;
+};
+
+// Enemies our player must avoid
+var Enemy = function(xAxis, yAxis) {
+    "use strict";
+    Sprite.call(this, xAxis, yAxis);
+    this.sprite = 'images/enemy-bug.png';
+};
+
+//creating a constructor to start adding methods to the Enemy class
+Enemy.prototype = Object.create(Sprite.prototype);
+Enemy.prototype.constructor = Enemy;
+
+//sets enemy speed
+Enemy.prototype.speed = function(speed) {
+    'use strict';
     this.speed = speed;
 };
 
 // player class is created, the player's initial x and y coordinates are set. score is set at 0
 var Player = function(xAxis, yAxis) {
     "use strict";
+    Sprite.call(this, xAxis, yAxis);
     this.sprite = 'images/char-boy.png';
-    this.x = xAxis;
-    this.y = yAxis;
     this.score = 0;
     this.highScore = 0;
 };
+
+//creating a constructor to start adding methods to the player class
+Player.prototype = Object.create(Sprite.prototype);
+Player.prototype.constructor = Player;
 
 //checks for player/enemy collision
 Enemy.prototype.collision = function(player){
@@ -98,23 +116,28 @@ Player.prototype.handleInput = function(keys) {
         break;
     }
 };
-/*
-Player.prototype.update = function(dt) {
-    "use strict";
-    this.collision(player);
-};*/
 
 // Enemy instances are created
-var enemy1 = new Enemy(-9000, 230, 800);
-var enemy2 = new Enemy(-200, 120, 200);
-var enemy3 = new Enemy(-600, 230, 100);
-var enemy4 = new Enemy(-800, 120, 400);
-var enemy5 = new Enemy(-400, 230, 500);
-var enemy6 = new Enemy(-350, 50, 600);
-var enemy7 = new Enemy(-400, 50, 70);
-var enemy8 = new Enemy(-350, 50, 80);
-var enemy9 = new Enemy(-800, 50, 500);
-var enemy10 = new Enemy(-800, 50, 100);
+var enemy1 = new Enemy(-9000, 230);
+enemy1.speed = 800;
+var enemy2 = new Enemy(-200, 120);
+enemy2.speed = 200;
+var enemy3 = new Enemy(-600, 230);
+enemy3.speed = 100;
+var enemy4 = new Enemy(-800, 120);
+enemy4.speed = 400;
+var enemy5 = new Enemy(-400, 230);
+enemy5.speed = 500;
+var enemy6 = new Enemy(-350, 50);
+enemy6.speed = 600;
+var enemy7 = new Enemy(-400, 50);
+enemy7.speed = 70;
+var enemy8 = new Enemy(-350, 50);
+enemy8.speed = 80;
+var enemy9 = new Enemy(-800, 50);
+enemy9.speed = 500;
+var enemy10 = new Enemy(-800, 50);
+enemy10.speed = 100;
 
 // allEnemies array is created and enemies instances are pushed to it
 var allEnemies = [];
